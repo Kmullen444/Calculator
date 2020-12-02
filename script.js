@@ -1,3 +1,6 @@
+
+// TODO: fix decimals
+
 const button = document.querySelectorAll('#num');
 const screen = document.querySelector('.screen');
 const plus = document.querySelector('.plus');
@@ -15,18 +18,28 @@ let op;
 
 function sum(a, b) {
     result = parseFloat(a) + parseFloat(b);
+    console.log(displayValue1)
     screen.setAttribute('value', result);
+    displayValue1 = [...result.toString()];
+    displayValue2 = [];
+    op = '';
 
 }
 
 function minus(a, b) {
     result = parseFloat(a) - parseFloat(b);
     screen.setAttribute('value', result);
+    displayValue1 = [...result.toString()];
+    displayValue2 = [];
+    op = '';
 }
 
 function multi(a, b) {
     result = parseFloat(a) * parseFloat(b);
     screen.setAttribute('value', result);
+    displayValue1 = [...result.toString()];
+    displayValue2 = [];
+    op = '';
 }
 
 function divide(a, b) {
@@ -35,39 +48,26 @@ function divide(a, b) {
 
     } else {
         result = parseFloat(a) / parseFloat(b);
-        screen.setAttribute('value', Math.round(result));
+        screen.setAttribute('value', result);
+        displayValue1 = [...result.toString()];
+        displayValue2 = [];
+        op = '';
     }
 }
 
 function solve() {
-    if (op == '+') {
+    if(Array.isArray(displayValue1 && displayValue2)){
         displayValue1 = displayValue1.join('');
         displayValue2 = displayValue2.join('');
+    }
+    if (op == '+') {
         sum(displayValue1, displayValue2);
-        displayValue1 = result;
-        displayValue2 = [];
-        op = '';
     } else if (op == '-') {
-        displayValue1 = displayValue1.join('');
-        displayValue2 = displayValue2.join('')
         minus(displayValue1, displayValue2);
-        displayValue1 = result;
-        displayValue2 = [];
-        op = '';
     } else if (op == '*') {
-        displayValue1 = displayValue1.join('');
-        displayValue2 = displayValue2.join('')
         multi(displayValue1, displayValue2);
-        displayValue1 = result;
-        displayValue2 = [];
-        op = '';
     } else if (op == '/') {
-        displayValue1 = displayValue1.join('');
-        displayValue2 = displayValue2.join('')
-        divide(displayValue1, displayValue2);
-        displayValue1 = result;
-        displayValue2 = [];
-        op = '';
+        divide(displayValue1, displayValue2)
     }
 }
 
@@ -86,25 +86,30 @@ decimal.addEventListener('click', () => {
     } else {
         return
     }
-})
+}) 
 
 clear.addEventListener('click', () => {
     newNum = false;
     result;
-    op = [];
+    op;
     displayValue1 = [];
     displayValue2 = [];
-    screen.setAttribute('value', '80085');
+    screen.setAttribute('value', '0000');
 })
 
 operator.forEach((operator) => {
     operator.addEventListener('click', () => {
-        if(displayValue1 == ''){
-            return
-        }else{
-        op = operator.value;
-        newNum = true;
+        if(newNum === true){
+            solve();
         }
+        if (displayValue1 == '') {
+            return
+        } else {
+            op = operator.value;
+            newNum = true;
+
+        }
+
     })
 })
 
